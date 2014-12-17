@@ -1,0 +1,179 @@
+settings<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plugin Settings</title>
+  <link rel="stylesheet" href="settings/css/chrome-bootstrap.css">
+  <link rel="stylesheet" href="settings/css/settings.common.css">
+  <link rel="stylesheet" href="settings/css/avgrund.css">
+
+  <script src="/js/qbaka.config.js"></script>
+  <script src="/js/libs/qbaka.js"></script>
+  <script src="/js/libs/jquery-1.11.1.min.js"></script>
+  <script src="/js/libs/angular.min.js"></script>
+  <script src="/js/libs/chrome-bootstrap.js"></script>
+  <!-- build:js js/settings.js -->
+  <script src="/js/angular-app/app.settings.js"></script>
+  <script src="/js/angular-app/app.common.js"></script>
+  <script src="/js/angular-app/i18n/app.i18n.js"></script>
+  <script src="/js/angular-app/i18n/app.i18n.ru.js"></script>
+  <script src="/js/angular-app/i18n/app.i18n.en.js"></script>
+  <script src="/js/angular-app/sync/lib/angular.translate.js"></script>
+  <script src="/js/angular-app/sync/lib/angular.safeApply.js"></script>
+  <script src="/js/angular-app/sync/common/app.common.modal.js"></script>
+  <script src="/js/angular-app/sync/common/app.common.toTrusted.js"></script>
+  <script src="/js/angular-app/sync/common/app.common.exceptionHandler.js"></script>
+  <script src="/js/angular-app/sync/common/app.common.exceptionHandler.testing.js"></script>
+  <script src="/js/angular-app/sync/common/app.common.ga.js"></script>
+  <script src="/settings/js/share42.js"></script>
+  <!-- endbuild -->
+</head>
+
+<script type="text/ng-template" id="change-username-modal">
+    <div ng-controller="ChangeUsernameModalController" class="m-change-username-modal">
+        <p translate="omni.settings.sync.changeUsername.text"></p>
+        <div class="m-change-username-modal--buttons">
+            <button ng-click="unlinkAndClose()" translate="omni.settings.sync.changeUsername.unlink"></button>
+            <button ng-click="unlinkRemoveLocalNotesAndClose()" translate="omni.settings.sync.changeUsername.unlinkAndRemoveLocalNotes"></button>
+            <button ng-click="cancel()" translate="omni.settings.sync.changeUsername.cancel"></button>
+        </div>
+        {{loaded()}}
+    </div>
+</script>
+
+<body class="frame" ng-app="app" ng-controller="SettingsController" ng-csp>
+
+  <div class="navigation">
+    <h1>hashmem.com</h1>
+    <ul class="menu">
+      <li><a href="#sync" class="menu-selector" translate="omni.settings.menu.sync"></a></li>
+      <li><a href="{{helpUrl}}" target="_blank" class="external" translate="omni.settings.menu.help"></a></li>
+      <li><a href="{{feedbackUrl}}" target="_blank" class="external" translate="omni.settings.menu.feedback"></a></li>
+      <li><a href="{{rateItUrl}}" target="_blank" class="external" translate="omni.settings.menu.rateIt"></a></li>
+    </ul>
+  </div>
+
+  <div class="mainview view">
+    <div id="sync" ng-controller="SyncController">
+      <header><h1 translate="omni.settings.sync.header"></h1></header>
+      <div class="content" ng-class="{'is-flash': isFlashSync}">
+        <div class="m-message" ng-class="{'is-displayed':message, 'is-error':isErrorMessage}" >
+          <p ng-bind-html="message | to_trusted"></p>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="syncSettings.sync">
+            <span translate="omni.settings.sync.isEnabled"></span>
+            <a href="{{registerUrl}}" target="_blank" translate="omni.settings.sync.register"></a>
+          </label>
+        </div>
+        <div class="login-password">
+          <input type="text" placeholder="{{'omni.settings.sync.username' | translate}}" ng-model="syncSettings.username" ng-disabled="!isUsernameChangeable()">
+          <input type="password" placeholder="{{'omni.settings.sync.password' | translate}}" ng-model="syncSettings.password" ng-disabled="!isPasswordChangeable()">
+          <button ng-click="tryAuthenticate()" ng-disabled="!isUsernamePasswordFilled()" translate="omni.settings.sync.tryAuthenticate"></button>
+          <button ng-click="changeUsername()" ng-disabled="!isChangeUsernameEnabled()" translate="omni.settings.sync.changeUsernameButton"></button>
+        </div>
+
+        <!--<div class="checkbox-group">-->
+        <!--<div class="checkbox">-->
+        <!--<label>-->
+        <!--<input type="checkbox" ng-model="syncSettings.syncOnStartup" ng-disabled="!syncSettings.sync">-->
+        <!--<span>Sync on startup</span>-->
+        <!--</label>-->
+        <!--</div>-->
+        <!--<div class="checkbox">-->
+        <!--<label>-->
+        <!--<input type="checkbox" ng-model="syncSettings.syncOnChange" ng-disabled="!syncSettings.sync">-->
+        <!--<span>Sync on change</span>-->
+        <!--</label>-->
+        <!--</div>-->
+        <!--<div class="checkbox">-->
+        <!--<label>-->
+        <!--<input type="checkbox" ng-model="syncSettings.syncEachXMinutes" ng-disabled="!syncSettings.sync">-->
+        <!--<span>Sync each 10 minutes</span>-->
+        <!--</label>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <p ng-show="lastSync()"><span translate="omni.settings.sync.lastSuccess"></span>: {{lastSync() | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+
+        <p ng-show="!lastSync()" translate="omni.settings.sync.notSyncedDuringThisSession"></p>
+
+        <p ng-show="!isStateChanged()" translate="omni.settings.sync.stateNotChanged"></p>
+
+        <p ng-show="isStateChanged()" translate="omni.settings.sync.stateChanged"></p>
+
+        <div class="box">
+          <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()"></button>
+          <button ng-click="sync()" translate="omni.settings.sync.doSync" ng-disabled="isUsernamePasswordChanged()"></button>
+          <div class="spacer"></div>
+          <div class="sync-status" ng-class="{true: syncServerStatus}[syncSettings.sync]"></div>
+        </div>
+      </div>
+
+      <div class="m-footer-share">
+        <h4 translate="omni.settings.share.label"></h4>
+        <div class="share42init"
+             data-path="/settings/img/"
+             data-icons-file="share42.v2.png"
+             data-url="{{shareUrl}}"
+             data-title="{{shareMessage}}"></div>
+      </div>
+    </div>
+
+    <div id="help">
+      <header><h1 translate="omni.settings.help.header"></h1></header>
+      <div class="content">
+        <h2>Basic information</h2>
+        Chrome omnibox plugin allows you to create/read/delete notes on hashMem.com.
+        First of all configure your <a href="#sync" class="menu-selector">synchronization settings</a>.
+        After that you can select Chrome's address bar (<code>ctrl+l</code>) and type <code>hm </code> (don't forget about space after 'hm').
+        Now you are ready to type hashMem.com command you want.
+        <h2>Main commands</h2>
+        <dl>
+          <dt><code>noteKey</code></dt>
+          <dd>if you want to open local copy of the note your can just type its <code>key</code> and hit <code>enter</code>. You can use same technics as on site hasmMem.com.
+            For example you can type only capital letters of words and then select note's key from suggestions
+          </dd>
+
+          <dt><code>/</code>noteKey</dt>
+          <dd>you can open note on the hashMem.com site. To do so type <code>/</code> and <code>key</code> of the note you want to open</dd>
+
+          <dt><code>+</code>noteKey noteContent</dt>
+          <dd>to create/update note type <code>+</code>, <code>key</code>, space and then content of the new note. Content is optional.
+            If you leave it empty current URL will be used as content of the created note
+          </dd>
+
+          <dt><code>-</code>noteKey</dt>
+          <dd>To delete note just type <code>-</code> and <code>key</code> of the note you want to delete</dd>
+        </dl>
+        <h2>Support commands</h2>
+
+        <p>All support command starts with <code>:</code></p>
+        <dl>
+          <dt>:sync</dt>
+          <dd>synchronizes notes with hashMem.com site</dd>
+
+          <dt>:feedback</dt>
+          <dd>if you've got any suggestions / fount bug please type this command to open feedback page.</dd>
+
+          <dt>:help</dt>
+          <dd>opens plugin's help page</dd>
+
+          <dt>:settings</dt>
+          <dd>opens plugin's settings page</dd>
+
+          <dt>:other_plugins</dt>
+          <dd>using thins command you can check other hashMem.com plugins</dd>
+
+          <dt>:site</dt>
+          <dd>opens hashMem.com main page</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/libs/scrollController.js"></script>
+  <script src="/js/avgrund.js"></script>
+</body>
+</html>
