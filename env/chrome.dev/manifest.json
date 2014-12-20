@@ -10,7 +10,7 @@
         "persistent":true
     },
     "omnibox":{
-        "keyword":"y"
+        "keyword":":y"
     },
     "icons": { "16": "/img/logo_chrome_inverted16.png",
         "48": "/img/logo_chrome_inverted48.png",
