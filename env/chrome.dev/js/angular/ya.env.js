@@ -1,4 +1,4 @@
-var app_common = angular.module('common', ['pascalprecht.translate']).
+angular.module('common').
     value("_logDebug", true).
     value("_testExceptionHandler", false).
     constant('applicationId', 'omni.dev-1.4').

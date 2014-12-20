@@ -10,20 +10,20 @@
         "persistent":true
     },
     "omnibox":{
-        "keyword":":y"
+        "keyword":"y"
     },
-    "icons": { "16": "/img/logo_chrome_inverted16.png",
-        "48": "/img/logo_chrome_inverted48.png",
-        "128": "/img/logo_chrome128.png" },
+    "icons": { "16": "/img/logo16.png",
+        "48": "/img/logo48.png",
+        "128": "/img/logo128.png" },
     "manifest_version":2,
     "permissions":[
         "storage",
         "tabs",
-        "http://localhost:8080/*", "https://localhost:8080/*",
+        "http://suggest-slovari.yandex.ru/*",
         "http://qbaka.com/*", "https://qbaka.com/*",
         "http://qbaka.net/*", "https://qbaka.net/*"
     ],
     "web_accessible_resources": [
-        "/img/logo_chrome_inverted48.png"
+        "/img/logo48.png"
     ]
 }
