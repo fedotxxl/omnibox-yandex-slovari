@@ -1,128 +1,111 @@
 <!doctype html>
 <html lang="en" ng-csp>
 <head>
-  <meta charset="utf-8">
-  <title>Plugin Settings</title>
-  <link rel="stylesheet" href="settings/css/chrome-bootstrap.css">
-  <link rel="stylesheet" href="settings/css/settings.common.css">
-  <link rel="stylesheet" href="settings/css/settings.ya.css">
+    <meta charset="utf-8">
+    <title>Plugin Settings</title>
+    <link rel="stylesheet" href="settings/css/chrome-bootstrap.css">
+    <link rel="stylesheet" href="settings/css/settings.common.css">
+    <link rel="stylesheet" href="settings/css/settings.ya.css">
 
-  <!--<script src="/js/qbaka.config.js"></script>-->
-  <!--<script src="/js/libs/qbaka.js"></script>-->
-  <script src="/js/libs/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="/js/libs/angular.js"></script>
-  <script type="text/javascript" src="/js/libs/angular.translate.js"></script>
-  <script type="text/javascript" src="/js/libs/underscore.min.js"></script>
-  <script src="/js/libs/chrome-bootstrap.js"></script>
+    <!--<script src="/js/qbaka.config.js"></script>-->
+    <!--<script src="/js/libs/qbaka.js"></script>-->
+    <script src="/js/libs/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/libs/angular.js"></script>
+    <script type="text/javascript" src="/js/libs/angular.translate.js"></script>
+    <script type="text/javascript" src="/js/libs/underscore.min.js"></script>
+    <script src="/js/libs/chrome-bootstrap.js"></script>
 
-  <!-- build:js js/settings.js -->
-  <script type="text/javascript" src="/js/angular/ya.common.js"></script>
-  <script type="text/javascript" src="/settings/js/ya.settingsController.js"></script>
-  <script type="text/javascript" src="/js/libs/angular.safeApply.js"></script>
-  <script type="text/javascript" src="/js/angular/common/app.common.chrome.js"></script>
-  <script type="text/javascript" src="/js/angular/common/app.common.i18n.js"></script>
-  <script type="text/javascript" src="/js/angular/common/app.common.exceptionHandler.js"></script>
-  <script type="text/javascript" src="/js/angular/common/app.common.bootstrapData.js"></script>
-  <script type="text/javascript" src="/js/angular/ya.env.js"></script>
-  <script type="text/javascript" src="/js/angular/i18n/ya.i18n.js"></script>
-  <script type="text/javascript" src="/js/angular/i18n/ya.i18n.en.js"></script>
-  <script type="text/javascript" src="/js/angular/i18n/ya.i18n.ru.js"></script>
-  <script type="text/javascript" src="/settings/js/share42.js"></script>
-  <!-- endbuild -->
+    <!-- build:js js/settings.js -->
+    <script type="text/javascript" src="/js/angular/ya.common.js"></script>
+    <script type="text/javascript" src="/settings/js/ya.settingsController.js"></script>
+    <script type="text/javascript" src="/js/libs/angular.safeApply.js"></script>
+    <script type="text/javascript" src="/js/angular/common/app.common.chrome.js"></script>
+    <script type="text/javascript" src="/js/angular/common/app.common.i18n.js"></script>
+    <script type="text/javascript" src="/js/angular/common/app.common.exceptionHandler.js"></script>
+    <script type="text/javascript" src="/js/angular/common/app.common.bootstrapData.js"></script>
+    <script type="text/javascript" src="/js/angular/ya.env.js"></script>
+    <script type="text/javascript" src="/js/angular/i18n/ya.i18n.js"></script>
+    <script type="text/javascript" src="/js/angular/i18n/ya.i18n.en.js"></script>
+    <script type="text/javascript" src="/js/angular/i18n/ya.i18n.ru.js"></script>
+    <script type="text/javascript" src="/settings/js/share42.js"></script>
+    <!-- endbuild -->
 
-  <link rel="stylesheet" href="settings/select2/select2.css">
-  <script type="text/javascript" src="settings/select2/select2.js"></script>
-  <script type="text/javascript" src="settings/select2/angular.select2.js"></script>
+    <link rel="stylesheet" href="settings/select2/select2.css">
+    <script type="text/javascript" src="settings/select2/select2.js"></script>
+    <script type="text/javascript" src="settings/select2/angular.select2.js"></script>
 </head>
 
-<body class="frame" ng-controller="SettingsController" >
+<body class="frame" ng-controller="SettingsController">
 
-  <div class="navigation">
+<div class="navigation">
     <h1>hashmem.com</h1>
     <ul class="menu">
-      <li><a href="#sync" class="menu-selector" translate="omni.settings.menu.sync"></a></li>
-      <li><a href="{{rateItUrl}}" target="_blank" class="external" translate="omni.settings.menu.rateIt"></a></li>
+        <li><a href="#sync" class="menu-selector" translate="omni.settings.menu.sync"></a></li>
+        <li><a href="{{rateItUrl}}" target="_blank" class="external" translate="omni.settings.menu.rateIt"></a></li>
     </ul>
-  </div>
+</div>
 
-  <div class="mainview view">
+<div class="mainview view">
     <div id="sync">
-      <header><h1 translate="omni.settings.sync.header"></h1></header>
-      <div class="content" ng-class="{'is-flash': isFlashSync}">
-        <div class="m-message" ng-class="{'is-displayed':message, 'is-error':isErrorMessage}" >
-          <p ng-bind-html="message"></p>
-        </div>
+        <header>
+            <h1>Основная пара <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
+        </header>
         <div>
-          <select ui-select2="select2Options" ng-model="defaultFrom" data-placeholder="Pick a lang">
-            <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
-          </select>
+            <p>
+                Укажите пару языков по-умолчанию
+            </p>
 
-          <select ui-select2="select2Options" ng-model="defaultTo" data-placeholder="Pick a lang">
-            <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
-          </select>
-        </div>
-        <hr/>
+            <div>
+                <select ui-select2="select2Options" ng-model="defaultFrom" data-placeholder="Pick a lang">
+                    <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
+                </select>
 
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" ng-model="syncSettings.sync">
-            <span translate="omni.settings.sync.isEnabled"></span>
-            <a href="{{registerUrl}}" target="_blank" translate="omni.settings.sync.register"></a>
-          </label>
-        </div>
-        <div class="login-password">
-          <input type="text" placeholder="{{'omni.settings.sync.username' | translate}}" ng-model="syncSettings.username" ng-disabled="!isUsernameChangeable()">
-          <input type="password" placeholder="{{'omni.settings.sync.password' | translate}}" ng-model="syncSettings.password" ng-disabled="!isPasswordChangeable()">
-          <button ng-click="tryAuthenticate()" ng-disabled="!isUsernamePasswordFilled()" translate="omni.settings.sync.tryAuthenticate"></button>
-          <button ng-click="changeUsername()" ng-disabled="!isChangeUsernameEnabled()" translate="omni.settings.sync.changeUsernameButton"></button>
+                <span>-</span>
+
+                <select ui-select2="select2Options" ng-model="defaultTo" data-placeholder="Pick a lang">
+                    <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
+                </select>
+            </div>
         </div>
 
-        <!--<div class="checkbox-group">-->
-        <!--<div class="checkbox">-->
-        <!--<label>-->
-        <!--<input type="checkbox" ng-model="syncSettings.syncOnStartup" ng-disabled="!syncSettings.sync">-->
-        <!--<span>Sync on startup</span>-->
-        <!--</label>-->
-        <!--</div>-->
-        <!--<div class="checkbox">-->
-        <!--<label>-->
-        <!--<input type="checkbox" ng-model="syncSettings.syncOnChange" ng-disabled="!syncSettings.sync">-->
-        <!--<span>Sync on change</span>-->
-        <!--</label>-->
-        <!--</div>-->
-        <!--<div class="checkbox">-->
-        <!--<label>-->
-        <!--<input type="checkbox" ng-model="syncSettings.syncEachXMinutes" ng-disabled="!syncSettings.sync">-->
-        <!--<span>Sync each 10 minutes</span>-->
-        <!--</label>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div class="m-lang-adds">
+            <h2>Дополнительные пары языков</h2>
 
-        <p ng-show="lastSync()"><span translate="omni.settings.sync.lastSuccess"></span>: {{lastSync() | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+            <p>Чтобы использовать одную из дополнительных комбинаций, ваш запрос должен начинаться с соответствующего
+                прификса (например <code>ru-de мир</code>)</p>
+            <ul>
+                <li class="m-lang-adds-item">
+                    <input type="text" class="m-lang-adds-item--prefix" placeholder="Префикс"/>
 
-        <p ng-show="!lastSync()" translate="omni.settings.sync.notSyncedDuringThisSession"></p>
+                    <div class="is-lang-pair">
+                        <select ui-select2="select2Options" ng-model="defaultFrom" data-placeholder="Pick a lang">
+                            <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
+                        </select>
 
-        <p ng-show="!isStateChanged()" translate="omni.settings.sync.stateNotChanged"></p>
+                        <span>-</span>
 
-        <p ng-show="isStateChanged()" translate="omni.settings.sync.stateChanged"></p>
+                        <select ui-select2="select2Options" ng-model="defaultTo" data-placeholder="Pick a lang">
+                            <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
+                        </select>
+                    </div>
 
-        <div class="box">
-          <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()"></button>
-          <button ng-click="sync()" translate="omni.settings.sync.doSync" ng-disabled="isUsernamePasswordChanged()"></button>
-          <div class="spacer"></div>
-          <div class="sync-status" ng-class="{true: syncServerStatus}[syncSettings.sync]"></div>
+                    <button class="m-lang-adds-item--remove">x</button>
+                </li>
+            </ul>
+
+            <button class="m-lang-adds--add">+</button>
         </div>
-      </div>
 
-      <div class="m-footer-share">
-        <h4 translate="omni.settings.share.label"></h4>
-        <div class="share42init"
-             data-path="/settings/img/"
-             data-icons-file="share42.v2.png"
-             data-url="{{shareUrl}}"
-             data-title="{{shareMessage}}"></div>
-      </div>
+        <div class="m-footer-share">
+            <h4 translate="omni.settings.share.label"></h4>
+
+            <div class="share42init"
+                 data-path="/settings/img/"
+                 data-icons-file="share42.v2.png"
+                 data-url="{{shareUrl}}"
+                 data-title="{{shareMessage}}"></div>
+        </div>
     </div>
-  </div>
+</div>
 </body>
 </html>
