@@ -1,6 +1,11 @@
 angular.module('app').
     config(function($translateProvider) {
         var ru = {
+            lang: {
+                ru: "Русский",
+                en: "Английский",
+                de: "Немецкий"
+            },
             omni: {
                 suggest: {
                     syncNotes: 'Синхронизировать заметки',

@@ -5,6 +5,7 @@
   <title>Plugin Settings</title>
   <link rel="stylesheet" href="settings/css/chrome-bootstrap.css">
   <link rel="stylesheet" href="settings/css/settings.common.css">
+  <link rel="stylesheet" href="settings/css/settings.ya.css">
 
   <!--<script src="/js/qbaka.config.js"></script>-->
   <!--<script src="/js/libs/qbaka.js"></script>-->
@@ -28,6 +29,10 @@
   <script type="text/javascript" src="/js/angular/i18n/ya.i18n.ru.js"></script>
   <script type="text/javascript" src="/settings/js/share42.js"></script>
   <!-- endbuild -->
+
+  <link rel="stylesheet" href="settings/select2/select2.css">
+  <script type="text/javascript" src="settings/select2/select2.js"></script>
+  <script type="text/javascript" src="settings/select2/angular.select2.js"></script>
 </head>
 
 <body class="frame" ng-controller="SettingsController" >
@@ -47,6 +52,17 @@
         <div class="m-message" ng-class="{'is-displayed':message, 'is-error':isErrorMessage}" >
           <p ng-bind-html="message"></p>
         </div>
+        <div>
+          <select ui-select2="select2Options" ng-model="defaultFrom" data-placeholder="Pick a lang">
+            <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
+          </select>
+
+          <select ui-select2="select2Options" ng-model="defaultTo" data-placeholder="Pick a lang">
+            <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
+          </select>
+        </div>
+        <hr/>
+
         <div class="checkbox">
           <label>
             <input type="checkbox" ng-model="syncSettings.sync">
