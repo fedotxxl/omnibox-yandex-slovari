@@ -1,64 +1,51 @@
-settings<!doctype html>
-<html lang="en">
+<!doctype html>
+<html lang="en" ng-csp>
 <head>
   <meta charset="utf-8">
   <title>Plugin Settings</title>
   <link rel="stylesheet" href="settings/css/chrome-bootstrap.css">
   <link rel="stylesheet" href="settings/css/settings.common.css">
-  <link rel="stylesheet" href="settings/css/avgrund.css">
 
-  <script src="/js/qbaka.config.js"></script>
-  <script src="/js/libs/qbaka.js"></script>
+  <!--<script src="/js/qbaka.config.js"></script>-->
+  <!--<script src="/js/libs/qbaka.js"></script>-->
   <script src="/js/libs/jquery-1.11.1.min.js"></script>
-  <script src="/env/chrome.prod/js/libs/angular.js"></script>
+  <script type="text/javascript" src="/js/libs/angular.js"></script>
+  <script type="text/javascript" src="/js/libs/angular.translate.js"></script>
+  <script type="text/javascript" src="/js/libs/underscore.min.js"></script>
   <script src="/js/libs/chrome-bootstrap.js"></script>
+
   <!-- build:js js/settings.js -->
-  <script src="/js/angular-app/app.settings.js"></script>
-  <script src="/js/angular-app/app.common.js"></script>
-  <script src="/js/angular-app/i18n/app.i18n.js"></script>
-  <script src="/js/angular-app/i18n/app.i18n.ru.js"></script>
-  <script src="/js/angular-app/i18n/app.i18n.en.js"></script>
-  <script src="/js/angular-app/sync/lib/angular.translate.js"></script>
-  <script src="/js/angular-app/sync/lib/angular.safeApply.js"></script>
-  <script src="/js/angular-app/sync/common/app.common.modal.js"></script>
-  <script src="/js/angular-app/sync/common/app.common.toTrusted.js"></script>
-  <script src="/js/angular-app/sync/common/app.common.exceptionHandler.js"></script>
-  <script src="/js/angular-app/sync/common/app.common.exceptionHandler.testing.js"></script>
-  <script src="/js/angular-app/sync/common/app.common.ga.js"></script>
-  <script src="/settings/js/share42.js"></script>
+  <script type="text/javascript" src="/js/angular/ya.common.js"></script>
+  <script type="text/javascript" src="/settings/js/ya.settingsController.js"></script>
+  <script type="text/javascript" src="/js/libs/angular.safeApply.js"></script>
+  <script type="text/javascript" src="/js/angular/common/app.common.chrome.js"></script>
+  <script type="text/javascript" src="/js/angular/common/app.common.i18n.js"></script>
+  <script type="text/javascript" src="/js/angular/common/app.common.exceptionHandler.js"></script>
+  <script type="text/javascript" src="/js/angular/common/app.common.bootstrapData.js"></script>
+  <script type="text/javascript" src="/js/angular/ya.env.js"></script>
+  <script type="text/javascript" src="/js/angular/i18n/ya.i18n.js"></script>
+  <script type="text/javascript" src="/js/angular/i18n/ya.i18n.en.js"></script>
+  <script type="text/javascript" src="/js/angular/i18n/ya.i18n.ru.js"></script>
+  <script type="text/javascript" src="/settings/js/share42.js"></script>
   <!-- endbuild -->
 </head>
 
-<script type="text/ng-template" id="change-username-modal">
-    <div ng-controller="ChangeUsernameModalController" class="m-change-username-modal">
-        <p translate="omni.settings.sync.changeUsername.text"></p>
-        <div class="m-change-username-modal--buttons">
-            <button ng-click="unlinkAndClose()" translate="omni.settings.sync.changeUsername.unlink"></button>
-            <button ng-click="unlinkRemoveLocalNotesAndClose()" translate="omni.settings.sync.changeUsername.unlinkAndRemoveLocalNotes"></button>
-            <button ng-click="cancel()" translate="omni.settings.sync.changeUsername.cancel"></button>
-        </div>
-        {{loaded()}}
-    </div>
-</script>
-
-<body class="frame" ng-app="app" ng-controller="SettingsController" ng-csp>
+<body class="frame" ng-controller="SettingsController" >
 
   <div class="navigation">
     <h1>hashmem.com</h1>
     <ul class="menu">
       <li><a href="#sync" class="menu-selector" translate="omni.settings.menu.sync"></a></li>
-      <li><a href="{{helpUrl}}" target="_blank" class="external" translate="omni.settings.menu.help"></a></li>
-      <li><a href="{{feedbackUrl}}" target="_blank" class="external" translate="omni.settings.menu.feedback"></a></li>
       <li><a href="{{rateItUrl}}" target="_blank" class="external" translate="omni.settings.menu.rateIt"></a></li>
     </ul>
   </div>
 
   <div class="mainview view">
-    <div id="sync" ng-controller="SyncController">
+    <div id="sync">
       <header><h1 translate="omni.settings.sync.header"></h1></header>
       <div class="content" ng-class="{'is-flash': isFlashSync}">
         <div class="m-message" ng-class="{'is-displayed':message, 'is-error':isErrorMessage}" >
-          <p ng-bind-html="message | to_trusted"></p>
+          <p ng-bind-html="message"></p>
         </div>
         <div class="checkbox">
           <label>
@@ -120,60 +107,6 @@ settings<!doctype html>
              data-title="{{shareMessage}}"></div>
       </div>
     </div>
-
-    <div id="help">
-      <header><h1 translate="omni.settings.help.header"></h1></header>
-      <div class="content">
-        <h2>Basic information</h2>
-        Chrome omnibox plugin allows you to create/read/delete notes on hashMem.com.
-        First of all configure your <a href="#sync" class="menu-selector">synchronization settings</a>.
-        After that you can select Chrome's address bar (<code>ctrl+l</code>) and type <code>hm </code> (don't forget about space after 'hm').
-        Now you are ready to type hashMem.com command you want.
-        <h2>Main commands</h2>
-        <dl>
-          <dt><code>noteKey</code></dt>
-          <dd>if you want to open local copy of the note your can just type its <code>key</code> and hit <code>enter</code>. You can use same technics as on site hasmMem.com.
-            For example you can type only capital letters of words and then select note's key from suggestions
-          </dd>
-
-          <dt><code>/</code>noteKey</dt>
-          <dd>you can open note on the hashMem.com site. To do so type <code>/</code> and <code>key</code> of the note you want to open</dd>
-
-          <dt><code>+</code>noteKey noteContent</dt>
-          <dd>to create/update note type <code>+</code>, <code>key</code>, space and then content of the new note. Content is optional.
-            If you leave it empty current URL will be used as content of the created note
-          </dd>
-
-          <dt><code>-</code>noteKey</dt>
-          <dd>To delete note just type <code>-</code> and <code>key</code> of the note you want to delete</dd>
-        </dl>
-        <h2>Support commands</h2>
-
-        <p>All support command starts with <code>:</code></p>
-        <dl>
-          <dt>:sync</dt>
-          <dd>synchronizes notes with hashMem.com site</dd>
-
-          <dt>:feedback</dt>
-          <dd>if you've got any suggestions / fount bug please type this command to open feedback page.</dd>
-
-          <dt>:help</dt>
-          <dd>opens plugin's help page</dd>
-
-          <dt>:settings</dt>
-          <dd>opens plugin's settings page</dd>
-
-          <dt>:other_plugins</dt>
-          <dd>using thins command you can check other hashMem.com plugins</dd>
-
-          <dt>:site</dt>
-          <dd>opens hashMem.com main page</dd>
-        </dl>
-      </div>
-    </div>
   </div>
-
-  <script src="/js/libs/scrollController.js"></script>
-  <script src="/js/avgrund.js"></script>
 </body>
 </html>
