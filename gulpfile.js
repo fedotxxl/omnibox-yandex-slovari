@@ -1,5 +1,7 @@
 var gulp = require('gulp');
 var clean = require('gulp-clean');
+var fileinclude = require('gulp-file-include');
+var es = require('event-stream');
 
 GLOBAL.shared = {
     params: {}
@@ -15,7 +17,18 @@ GLOBAL.shared = {
     });
 
     gulp.task('copy', ['clean'], function() {
-        return gulp.src(["**/*.*", '!./node_modules/**']).pipe(gulp.dest("build/"));
+        var copyStatic = function() {
+            return gulp.src(["**/*.*", '!./node_modules/**', "!**/*.html"])
+                .pipe(gulp.dest("build/"));
+        };
+
+        var copyHtml = function() {
+            return gulp.src("**/*.html")
+                .pipe(fileinclude())
+                .pipe(gulp.dest("build/"));
+        };
+
+        return es.concat(copyStatic(), copyHtml());
     });
 
     gulp.task('env.chrome.dev', ['copy'], function() {

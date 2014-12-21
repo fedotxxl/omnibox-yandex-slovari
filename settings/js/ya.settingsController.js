@@ -146,6 +146,6 @@ $(document).ready(function () {
             open($(ev.currentTarget).attr('href'))
         });
 
-        open((window.location.hash) ? window.location.hash : '#sync')
+        open((window.location.hash) ? window.location.hash : '#main')
     });
 });

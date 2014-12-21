@@ -40,17 +40,18 @@
 <div class="navigation">
     <h1>hashmem.com</h1>
     <ul class="menu">
-        <li><a href="#sync" class="menu-selector" translate="omni.settings.menu.sync"></a></li>
+        <li><a href="#main" class="menu-selector">Основные</a></li>
+        <li><a href="#advanced" class="menu-selector">Дополнительные</a></li>
         <li><a href="{{rateItUrl}}" target="_blank" class="external" translate="omni.settings.menu.rateIt"></a></li>
     </ul>
 </div>
 
 <div class="mainview view">
-    <div id="sync">
+    <div id="main">
         <header>
-            <h1>Основная пара <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
+            <h1>Основные настройки <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
         </header>
-        <div>
+        <div class="content">
             <p>
                 Укажите пару языков по-умолчанию
             </p>
@@ -66,11 +67,20 @@
                     <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
                 </select>
             </div>
+
+            <div class="is-save">
+                <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
+            </div>
         </div>
 
-        <div class="m-lang-adds">
-            <h2>Дополнительные пары языков</h2>
-
+        @@include('./settings/_plugins.html')
+        @@include('./settings/_share.html')
+    </div>
+    <div id="advanced" class="m-lang-adds">
+        <header>
+            <h1>Дополнительные пары языков <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
+        </header>
+        <div class="content">
             <p>Чтобы использовать одную из дополнительных комбинаций, ваш запрос должен начинаться с соответствующего
                 прификса (например <code>ru-de мир</code>)</p>
             <ul>
@@ -94,18 +104,16 @@
             </ul>
 
             <button class="m-lang-adds--add">+</button>
+
+            <div class="is-save">
+                <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
+            </div>
         </div>
 
-        <div class="m-footer-share">
-            <h4 translate="omni.settings.share.label"></h4>
-
-            <div class="share42init"
-                 data-path="/settings/img/"
-                 data-icons-file="share42.v2.png"
-                 data-url="{{shareUrl}}"
-                 data-title="{{shareMessage}}"></div>
-        </div>
+        @@include('./settings/_plugins.html')
+        @@include('./settings/_share.html')
     </div>
+
 </div>
 </body>
 </html>
