@@ -46,6 +46,10 @@ h2 {
     width: 65px;
 }
 
+.m-lang-adds-item {
+    margin: 10px 0;
+}
+
 input.m-lang-adds-item--prefix {
     width: 65px;
     display: inline-block;

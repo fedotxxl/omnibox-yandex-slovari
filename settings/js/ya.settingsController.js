@@ -84,14 +84,17 @@ angular.module('app', ['common', 'ui.select2']).
             }
         }
     }).
-    controller('SettingsController',function ($scope, _browser, _privateRouter, _i18n, _settings, _settingsData) {
+    controller('SettingsBaseController', function($scope, _browser, _settings, _privateRouter, _i18n, _settingsData) {
         //icons - http://findicons.com/pack/282/flags
         var browser = (_browser == 'opera') ? 'opera' : 'chrome';
 
         $scope.rateItUrl = _privateRouter.rateItUrl;
         $scope.shareUrl = _privateRouter.shareUrl;
         $scope.shareMessage = _i18n('omni.settings.share.' + browser + '.message');
-        $scope.settings = $.extend({}, _settings.get());
+        $scope.settings = $.extend({
+            default: {},
+            pairs: []
+        }, _settings.get());
 
         var format = function(state) {
             if (!state.id) return state.text; // optgroup
@@ -105,14 +108,68 @@ angular.module('app', ['common', 'ui.select2']).
             escapeMarkup: function(m) { return m; }
         };
 
-        $scope.$watch('defaultFrom', function(current, prev) {
+        $scope.langsFrom = _settingsData.getLangs();
+    }).
+    controller('SettingsMainController', function($scope, _settingsData, _settings) {
+        $scope.default = $scope.settings.default;
+        $scope.$watch('default.from', function(current, prev) {
             if (current != prev) {
-                $scope.defaultTo = null;
-                $scope.langsTo = _settingsData.getDependentLangs(current);
+                $scope.default.to = null;
+                $scope.default.langsTo = _settingsData.getDependentLangs(current);
             }
         });
 
-        $scope.langsFrom = _settingsData.getLangs();
+        $scope.isStateChanged = function() {
+            var saved = _settings.get().default || {};
+            var current = $scope.default;
+
+            return saved.from != current.from || saved.to != saved.to;
+        };
+    }).
+    controller('SettingsAdvancedController',function ($scope, _settingsData) {
+        var changed = false;
+
+        $scope.pairs = $scope.settings.pairs;
+        $scope.$watch('pairs', function(c, p) {
+            if (c.length != p.length) return;
+
+            var length = c.length;
+
+            for (var i = 0; i < length; i++) {
+                var current = c ? c[i] : null;
+                var prev = p ? p[i] : null;
+
+                if (current) {
+                    current.langsTo = _settingsData.getDependentLangs(current.from);
+                }
+
+                if (current && prev) {
+                    if (current.from != prev.from) {
+                        current.to = null;
+                    }
+                }
+
+                if (current && !prev) {
+                    changed = true;
+                } else if (prev && !current) {
+                    changed = true;
+                } else if (current.from != prev.from || current.to != prev.to || current.prefix != prev.prefix) {
+                    changed = true;
+                }
+            }
+        }, true);
+
+        $scope.addPair = function() {
+            $scope.pairs.push({});
+        };
+
+        $scope.removePair = function(pair) {
+            $scope.pairs.remove(pair);
+        };
+
+        $scope.isStateChanged = function() {
+            return changed;
+        };
     });
 
 $(document).ready(function () {

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="/js/libs/angular.translate.js"></script>
     <script type="text/javascript" src="/js/libs/underscore.min.js"></script>
     <script src="/js/libs/chrome-bootstrap.js"></script>
+    <script src="/js/utils/utils.array-fix.js"></script>
 
     <!-- build:js js/settings.js -->
     <script type="text/javascript" src="/js/angular/ya.common.js"></script>
@@ -35,7 +36,7 @@
     <script type="text/javascript" src="settings/select2/angular.select2.js"></script>
 </head>
 
-<body class="frame" ng-controller="SettingsController">
+<body class="frame" ng-controller="SettingsBaseController">
 
 <div class="navigation">
     <h1>hashmem.com</h1>
@@ -47,7 +48,7 @@
 </div>
 
 <div class="mainview view">
-    <div id="main">
+    <div id="main" ng-controller="SettingsMainController">
         <header>
             <h1>Основные настройки <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
         </header>
@@ -57,14 +58,14 @@
             </p>
 
             <div>
-                <select ui-select2="select2Options" ng-model="defaultFrom" data-placeholder="Pick a lang">
+                <select ui-select2="select2Options" ng-model="default.from" data-placeholder="Pick a lang">
                     <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
                 </select>
 
                 <span>-</span>
 
-                <select ui-select2="select2Options" ng-model="defaultTo" data-placeholder="Pick a lang">
-                    <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
+                <select ui-select2="select2Options" ng-model="default.to" data-placeholder="Pick a lang">
+                    <option ng-repeat="lang in default.langsTo" value="{{lang.id}}">{{lang.text}}</option>
                 </select>
             </div>
 
@@ -76,7 +77,7 @@
         @@include('./settings/_plugins.html')
         @@include('./settings/_share.html')
     </div>
-    <div id="advanced" class="m-lang-adds">
+    <div id="advanced" class="m-lang-adds" ng-controller="SettingsAdvancedController">
         <header>
             <h1>Дополнительные пары языков <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
         </header>
@@ -84,26 +85,26 @@
             <p>Чтобы использовать одную из дополнительных комбинаций, ваш запрос должен начинаться с соответствующего
                 прификса (например <code>ru-de мир</code>)</p>
             <ul>
-                <li class="m-lang-adds-item">
-                    <input type="text" class="m-lang-adds-item--prefix" placeholder="Префикс"/>
+                <li class="m-lang-adds-item" ng-repeat="pair in pairs">
+                    <input type="text" class="m-lang-adds-item--prefix" placeholder="Префикс" ng-model="pair.prefix"/>
 
                     <div class="is-lang-pair">
-                        <select ui-select2="select2Options" ng-model="defaultFrom" data-placeholder="Pick a lang">
+                        <select ui-select2="select2Options" ng-model="pair.from" data-placeholder="Pick a lang">
                             <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
                         </select>
 
                         <span>-</span>
 
-                        <select ui-select2="select2Options" ng-model="defaultTo" data-placeholder="Pick a lang">
-                            <option ng-repeat="lang in langsTo" value="{{lang.id}}">{{lang.text}}</option>
+                        <select ui-select2="select2Options" ng-model="pair.to" data-placeholder="Pick a lang">
+                            <option ng-repeat="lang in pair.langsTo" value="{{lang.id}}">{{lang.text}}</option>
                         </select>
                     </div>
 
-                    <button class="m-lang-adds-item--remove">x</button>
+                    <button class="m-lang-adds-item--remove" ng-click="removePair(pair)">x</button>
                 </li>
             </ul>
 
-            <button class="m-lang-adds--add">+</button>
+            <button class="m-lang-adds--add" ng-click="addPair()">+</button>
 
             <div class="is-save">
                 <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
