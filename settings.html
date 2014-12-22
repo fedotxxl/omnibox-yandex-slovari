@@ -40,10 +40,10 @@
 <body class="frame" ng-controller="SettingsBaseController">
 
 <div class="navigation">
-    <h1>hashmem.com</h1>
+    <h1>hashMem.com</h1>
     <ul class="menu">
-        <li><a href="#main" class="menu-selector">Основные</a></li>
-        <li><a href="#advanced" class="menu-selector">Дополнительные</a></li>
+        <li><a href="#main" class="menu-selector" translate="omni.settings.menu.main"></a></li>
+        <li><a href="#advanced" class="menu-selector" translate="omni.settings.menu.advanced"></a></li>
         <li><a href="{{rateItUrl}}" target="_blank" class="external" translate="omni.settings.menu.rateIt"></a></li>
     </ul>
 </div>
@@ -51,27 +51,25 @@
 <div class="mainview view">
     <div id="main" ng-controller="SettingsMainController">
         <header>
-            <h1>Основные настройки <p class="m-header-saved" ng-show="saved">Сохранено: <span>{{saved}}</span></p></h1>
+            <h1>{{'omni.settings.main.label' | translate}} <p class="m-header-saved" ng-show="saved">{{'omni.settings.saved' | translate}}: <span>{{saved}}</span></p></h1>
         </header>
         <div class="content">
-            <p>
-                Укажите пару языков по-умолчанию
-            </p>
+            <p translate="omni.settings.main.text"></p>
 
             <div>
-                <select ui-select2="select2Options" ng-model="default.from" data-placeholder="Pick a lang">
+                <select ui-select2="select2Options" ng-model="default.from">
                     <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
                 </select>
 
                 <span>-</span>
 
-                <select ui-select2="select2Options" ng-model="default.to" data-placeholder="Pick a lang">
+                <select ui-select2="select2Options" ng-model="default.to">
                     <option ng-repeat="lang in default.langsTo" value="{{lang.id}}">{{lang.text}}</option>
                 </select>
             </div>
 
             <div class="is-save">
-                <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
+                <button ng-click="save()" translate="omni.settings.buttons.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
             </div>
         </div>
 
@@ -80,23 +78,22 @@
     </div>
     <div id="advanced" class="m-lang-adds" ng-controller="SettingsAdvancedController">
         <header>
-            <h1>Дополнительные пары языков <p class="m-header-saved" ng-show="saved">Сохранено: <span>{{saved}}</span></p></h1>
+            <h1>{{'omni.settings.advanced.label' | translate}} <p class="m-header-saved" ng-show="saved">{{'omni.settings.saved' | translate}}: <span>{{saved}}</span></p></h1>
         </header>
         <div class="content">
-            <p>Чтобы использовать одную из дополнительных комбинаций, ваш запрос должен начинаться с соответствующего
-                прификса (например <code>ru-de мир</code>)</p>
+            <p translate="omni.settings.advanced.text"></p>
             <ul>
                 <li class="m-lang-adds-item" ng-repeat="pair in pairs">
-                    <input type="text" class="m-lang-adds-item--prefix" placeholder="Префикс" ng-model="pair.prefix"/>
+                    <input type="text" class="m-lang-adds-item--prefix" placeholder="{{'omni.settings.advanced.placeholder' | translate}}" ng-model="pair.prefix"/>
 
                     <div class="is-lang-pair">
-                        <select ui-select2="select2Options" ng-model="pair.from" data-placeholder="Pick a lang">
+                        <select ui-select2="select2Options" ng-model="pair.from">
                             <option ng-repeat="lang in langsFrom" value="{{lang.id}}">{{lang.text}}</option>
                         </select>
 
                         <span>-</span>
 
-                        <select ui-select2="select2Options" ng-model="pair.to" data-placeholder="Pick a lang">
+                        <select ui-select2="select2Options" ng-model="pair.to">
                             <option ng-repeat="lang in pair.langsTo" value="{{lang.id}}">{{lang.text}}</option>
                         </select>
                     </div>
@@ -108,7 +105,7 @@
             <button class="m-lang-adds--add" ng-click="addPair()">+</button>
 
             <div class="is-save">
-                <button ng-click="save()" translate="omni.settings.sync.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
+                <button ng-click="save()" translate="omni.settings.buttons.save" ng-disabled="!isStateChanged()" class="ng-scope" disabled="disabled">Save</button>
             </div>
         </div>
 

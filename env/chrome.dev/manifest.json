@@ -4,7 +4,7 @@
     "description":"__MSG_appDesc__",
     "version":"1.0",
     "options_page": "settings.html",
-    "default_locale": "en",
+    "default_locale": "ru",
     "background":{
         "page":"background.html",
         "persistent":true

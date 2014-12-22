@@ -98,7 +98,7 @@ angular.module('app', ['common', 'ui.select2']).
         };
 
         $scope.select2Options = {
-            width: '120px',
+            width: '150px',
             formatResult: format,
             formatSelection: format,
             escapeMarkup: function(m) { return m; }
