@@ -1,8 +1,15 @@
 angular.module('app', ['common']).
-    factory('_omni',function (_ya, _chrome) {
+    factory('_omni',function (_settings, _ya, _chrome, $rootScope) {
         var latestSuggest = 0;
-        var langFrom = "ru";
-        var langTo = "de";
+        var langFrom = null;
+        var langTo = null;
+
+        var reload = function() {
+            var settings = _settings.get();
+
+            langFrom = settings.default.from;
+            langTo = settings.default.to;
+        };
 
         var splitSuggestion = function(suggest) {
             if (!suggest) suggest = '';
@@ -38,7 +45,7 @@ angular.module('app', ['common']).
         var suggest = function(text, callback) {
             var suggestStarted = Date.now();
 
-            _ya.lookup(text, langTo).then(function(response) {
+            _ya.lookup(text, langTo, langFrom).then(function(response) {
                 if (latestSuggest > suggestStarted) {
                     return;
                 } else {
@@ -55,6 +62,12 @@ angular.module('app', ['common']).
 
             _chrome.openTab(url);
         };
+
+        $rootScope.$on('settings:changed', function() {
+            reload();
+        });
+
+        reload();
 
         return {
             suggest: suggest,

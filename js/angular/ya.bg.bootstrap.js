@@ -4,8 +4,8 @@
 
     angular.module('bootstrap', ['common']).
         run(function(_bootstrapData, _chromeStorage) {
-            _chromeStorage.get('settings').then(function(settings) {
-                _bootstrapData.settings = settings;
+            _chromeStorage.get('settings').then(function(s) {
+                _bootstrapData.settings = (s) ? s.settings : null;
 
                 angular.bootstrap(document, ['app']);
                 appContainer.remove();

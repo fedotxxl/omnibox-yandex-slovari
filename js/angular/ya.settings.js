@@ -1,6 +1,11 @@
 angular.module("app").
-    factory('_settings', function(_chromeStorage, _bootstrapData) {
-        var settings = _bootstrapData.settings || {};
+    factory('_settings', function(_chromeStorage, _bootstrapData, $rootScope) {
+        var settings = (_bootstrapData.settings && !_.isEmpty(_bootstrapData.settings)) ? _bootstrapData.settings : {
+                default: {
+                    from: 'ru',
+                    to: 'en'
+                }
+            };
 
         var defaults = {
             default: {},
@@ -13,6 +18,8 @@ angular.module("app").
 
         var set = function(s) {
             settings = $.extend(true, {}, defaults, s);
+
+            $rootScope.$emit('settings:changed', settings);
 
             return _chromeStorage.set({
                 settings: settings
