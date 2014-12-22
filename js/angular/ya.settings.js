@@ -2,12 +2,21 @@ angular.module("app").
     factory('_settings', function(_chromeStorage, _bootstrapData) {
         var settings = _bootstrapData.settings || {};
 
+        var defaults = {
+            default: {},
+            pairs: []
+        };
+
         var get = function() {
             return settings;
         };
 
-        var set = function(settings) {
-            return _chromeStorage.set('settings', settings);
+        var set = function(s) {
+            settings = $.extend(true, {}, defaults, s);
+
+            return _chromeStorage.set({
+                settings: settings
+            });
         };
 
         return {

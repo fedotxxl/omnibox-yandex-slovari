@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="settings/css/chrome-bootstrap.css">
     <link rel="stylesheet" href="settings/css/settings.common.css">
     <link rel="stylesheet" href="settings/css/settings.ya.css">
+    <link rel="stylesheet" href="settings/css/angular-csp.css">
 
     <!--<script src="/js/qbaka.config.js"></script>-->
     <!--<script src="/js/libs/qbaka.js"></script>-->
@@ -50,7 +51,7 @@
 <div class="mainview view">
     <div id="main" ng-controller="SettingsMainController">
         <header>
-            <h1>Основные настройки <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
+            <h1>Основные настройки <p class="m-header-saved" ng-show="saved">Сохранено: <span>{{saved}}</span></p></h1>
         </header>
         <div class="content">
             <p>
@@ -79,7 +80,7 @@
     </div>
     <div id="advanced" class="m-lang-adds" ng-controller="SettingsAdvancedController">
         <header>
-            <h1>Дополнительные пары языков <p class="m-header-saved">Сохранено: <span>12:13:21</span></p></h1>
+            <h1>Дополнительные пары языков <p class="m-header-saved" ng-show="saved">Сохранено: <span>{{saved}}</span></p></h1>
         </header>
         <div class="content">
             <p>Чтобы использовать одную из дополнительных комбинаций, ваш запрос должен начинаться с соответствующего

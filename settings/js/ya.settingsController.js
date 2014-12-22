@@ -91,10 +91,6 @@ angular.module('app', ['common', 'ui.select2']).
         $scope.rateItUrl = _privateRouter.rateItUrl;
         $scope.shareUrl = _privateRouter.shareUrl;
         $scope.shareMessage = _i18n('omni.settings.share.' + browser + '.message');
-        $scope.settings = $.extend({
-            default: {},
-            pairs: []
-        }, _settings.get());
 
         var format = function(state) {
             if (!state.id) return state.text; // optgroup
@@ -108,10 +104,31 @@ angular.module('app', ['common', 'ui.select2']).
             escapeMarkup: function(m) { return m; }
         };
 
+        $scope.getSettings = function() {
+            return $.extend(true, {}, {
+                default: {},
+                pairs: []
+            }, _settings.get());
+        };
+
         $scope.langsFrom = _settingsData.getLangs();
+
+        $scope.getSavedLabel = function() {
+            var d = new Date();
+            var label = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+            return label;
+        }
     }).
     controller('SettingsMainController', function($scope, _settingsData, _settings) {
-        $scope.default = $scope.settings.default;
+        var loadState = function() {
+            $scope.default = $scope.getSettings().default;
+
+            if ($scope.default.from) {
+                $scope.default.langsTo = _settingsData.getDependentLangs($scope.default.from);
+            }
+        };
+
         $scope.$watch('default.from', function(current, prev) {
             if (current != prev) {
                 $scope.default.to = null;
@@ -123,15 +140,32 @@ angular.module('app', ['common', 'ui.select2']).
             var saved = _settings.get().default || {};
             var current = $scope.default;
 
-            return saved.from != current.from || saved.to != saved.to;
+            return saved.from != current.from || saved.to != current.to;
         };
+
+        $scope.save = function() {
+            var d = {
+                from: $scope.default.from,
+                to: $scope.default.to
+            };
+
+            _settings.set($.extend({}, _settings.get(), {default: d}));
+            loadState();
+
+            $scope.saved = $scope.getSavedLabel();
+        };
+
+        loadState();
     }).
-    controller('SettingsAdvancedController',function ($scope, _settingsData) {
+    controller('SettingsAdvancedController',function ($scope, _settingsData, _settings) {
         var changed = false;
 
-        $scope.pairs = $scope.settings.pairs;
+        $scope.pairs = $scope.getSettings().pairs;
         $scope.$watch('pairs', function(c, p) {
-            if (c.length != p.length) return;
+            if (c.length != p.length) {
+                changed = true;
+                return;
+            }
 
             var length = c.length;
 
@@ -169,6 +203,21 @@ angular.module('app', ['common', 'ui.select2']).
 
         $scope.isStateChanged = function() {
             return changed;
+        };
+
+        $scope.save = function() {
+            var pairs = _.map($scope.pairs, function(pair) {
+                return {
+                    prefix: pair.prefix,
+                    from: pair.from,
+                    to: pair.to
+                }
+            });
+
+            _settings.set($.extend({}, _settings.get(), {pairs: pairs}));
+            changed = false;
+
+            $scope.saved = $scope.getSavedLabel();
         };
     });
 
