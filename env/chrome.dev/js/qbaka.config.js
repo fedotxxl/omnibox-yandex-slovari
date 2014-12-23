@@ -1,1 +1,1 @@
-window.qbakaKey='d560075a7c1b03299ff79426d494345e';
+window.qbakaKey='2dcbf73a9f1f2873ce55bec9b4741559';

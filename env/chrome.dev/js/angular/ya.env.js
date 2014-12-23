@@ -1,9 +1,8 @@
 angular.module('common').
     value("_logDebug", true).
     value("_testExceptionHandler", false).
-    constant('applicationId', 'omni.dev-1.4').
+    value("_qbaka", false).
     constant('_browser', 'chrome').
-    constant('c_host', 'http://localhost:8080').
     factory('_privateRouter', function() {
         return {
             rateItUrl: "https://chrome.google.com/webstore/detail/nmkgaalbomjiafnenbknaoeilejnhnce/reviews?utm_source=chrome-ntp-icon",
@@ -11,4 +10,4 @@ angular.module('common').
         }
     });
 
-if (window.qbaka) window.qbaka.key = "d560075a7c1b03299ff79426d494345e";
+if (window.qbaka) window.qbaka.key = "2dcbf73a9f1f2873ce55bec9b4741559";
