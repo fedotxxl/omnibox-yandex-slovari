@@ -6,7 +6,8 @@ angular.module('common').
     factory('_privateRouter', function() {
         return {
             rateItUrl: "https://chrome.google.com/webstore/detail/nmkgaalbomjiafnenbknaoeilejnhnce/reviews?utm_source=chrome-ntp-icon",
-            shareUrl: "http://bit.ly/1sSX57o"
+            shareUrl: "http://bit.ly/1sSX57o",
+            hashMemPluginUrl: "https://chrome.google.com/webstore/detail/nmkgaalbomjiafnenbknaoeilejnhnce"
         }
     });
 

@@ -90,6 +90,7 @@ angular.module('app', ['common', 'ui.select2']).
 
         $scope.rateItUrl = _privateRouter.rateItUrl;
         $scope.shareUrl = _privateRouter.shareUrl;
+        $scope.hashMemPluginUrl = _privateRouter.hashMemPluginUrl;
         $scope.shareMessage = _i18n('omni.settings.share.' + browser + '.message');
 
         var format = function(state) {
