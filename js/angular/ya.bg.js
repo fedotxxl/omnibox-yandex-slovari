@@ -56,7 +56,10 @@ angular.module('app', ['common']).
             var suggestions = data[1];
 
             _.each(suggestions, function(suggestion, i) {
-                answer.push({content:  suggestion, description: suggestion});
+                var s = suggestion[1];
+                var text = s.text + " - " + s.translation;
+
+                answer.push({content: text, description: text});
             });
 
             return answer
@@ -65,9 +68,9 @@ angular.module('app', ['common']).
         var suggest = function(text, callback) {
             var suggestStarted = Date.now();
             var pairAndRequest = getPairAndRequest(text);
-            var pair = pairAndRequest.pair;
+            var pair = _ya.getFixedPair(pairAndRequest.pair);
 
-            _ya.lookup(pairAndRequest.request, pair.to, pair.from).then(function(response) {
+            _ya.lookup(pairAndRequest.request, pair.from, pair.to).then(function(response) {
                 if (latestSuggest > suggestStarted) {
                     return;
                 } else {
@@ -80,8 +83,9 @@ angular.module('app', ['common']).
 
         var processCommand = function(text) {
             var pairAndRequest = splitSuggestion(text);
-            var pair = pairAndRequest.pair;
-            var url = "https://slovari.yandex.ru/" + encodeURIComponent(pairAndRequest.request) + "/" + pair.from + "-" + pair.to;
+            var pair = _ya.getFixedPair(pairAndRequest.pair);
+            var key = _ya.getKey(pair);
+            var url = "https://slovari.yandex.ru/" + encodeURIComponent(pairAndRequest.request) + "/" + key;
 
             _chrome.openTab(url);
         };
