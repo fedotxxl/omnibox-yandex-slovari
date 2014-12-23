@@ -1,0 +1,3 @@
+2. Figure out supported combinations
+3. Add combinations to plugin description
+4. Add hashMem.com description to settings page
