@@ -67,3 +67,13 @@ input.m-lang-adds-item--prefix {
 .m-lang-adds-item:hover .m-lang-adds-item--remove {
     opacity: 1;
 }
+
+.m-plugins-item .m-plugins-item--logo {
+    float: left;
+    width: 48px;
+    margin-top: 5px;
+}
+
+.m-plugins-item .m-plugins-item--description {
+    margin-left: 60px;
+}
