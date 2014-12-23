@@ -10,7 +10,7 @@
         "persistent":true
     },
     "omnibox":{
-        "keyword":"y"
+        "keyword":"!"
     },
     "icons": { "16": "/img/logo16.png",
         "48": "/img/logo48.png",
