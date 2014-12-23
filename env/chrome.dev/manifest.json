@@ -5,6 +5,7 @@
     "version":"1.0",
     "options_page": "settings.html",
     "default_locale": "ru",
+    "content_security_policy": "script-src 'self' https://suggest-slovari.yandex.ru/; object-src 'self'",
     "background":{
         "page":"background.html",
         "persistent":true
@@ -19,7 +20,7 @@
     "permissions":[
         "storage",
         "tabs",
-        "http://suggest-slovari.yandex.ru/*",
+        "https://suggest-slovari.yandex.ru/*",
         "http://qbaka.com/*", "https://qbaka.com/*",
         "http://qbaka.net/*", "https://qbaka.net/*"
     ],
