@@ -1,20 +1,26 @@
 angular.module('app', ['common']).
     factory('_omni',function (_settings, _ya, _chrome, $rootScope) {
         var latestSuggest = 0;
-        var langFrom = null;
-        var langTo = null;
+        var settings = null;
+
+        var getPairForPrefix = function(prefix) {
+            if (prefix) {
+                return _.find(settings.pairs, function(pair) {
+                    return pair.prefix == prefix;
+                });
+            } else {
+                return settings.default;
+            }
+        };
 
         var reload = function() {
-            var settings = _settings.get();
-
-            langFrom = settings.default.from;
-            langTo = settings.default.to;
+            settings = _settings.get();
         };
 
         var splitSuggestion = function(suggest) {
             if (!suggest) suggest = '';
 
-            var word, translations;
+            var word, translations, request, pair;
             var pos = suggest.indexOf(" - ");
 
             if (pos > 0) {
@@ -24,8 +30,22 @@ angular.module('app', ['common']).
                 word = suggest.trim();
             }
 
+            if (word) {
+                var space = word.indexOf(" ");
+                if (space > 0) {
+                    request = word.substring(space + 1);
+                    pair = getPairForPrefix(word.substring(0, space));
+                }
+            }
+
+            if (!pair) {
+                request = word;
+                pair = getPairForPrefix();
+            }
+
             return {
-                word: word,
+                request: request,
+                pair: pair,
                 translations: translations
             }
         };
@@ -44,8 +64,10 @@ angular.module('app', ['common']).
 
         var suggest = function(text, callback) {
             var suggestStarted = Date.now();
+            var pairAndRequest = getPairAndRequest(text);
+            var pair = pairAndRequest.pair;
 
-            _ya.lookup(text, langTo, langFrom).then(function(response) {
+            _ya.lookup(pairAndRequest.request, pair.to, pair.from).then(function(response) {
                 if (latestSuggest > suggestStarted) {
                     return;
                 } else {
@@ -57,10 +79,34 @@ angular.module('app', ['common']).
         };
 
         var processCommand = function(text) {
-            var word = splitSuggestion(text).word;
-            var url = "https://slovari.yandex.ru/" + encodeURIComponent(word) + "/" + langFrom + "-" + langTo;
+            var pairAndRequest = splitSuggestion(text);
+            var pair = pairAndRequest.pair;
+            var url = "https://slovari.yandex.ru/" + encodeURIComponent(pairAndRequest.request) + "/" + pair.from + "-" + pair.to;
 
             _chrome.openTab(url);
+        };
+
+        var getPairAndRequest = function(text) {
+            text = (text) ? text.trim() : "";
+
+            var pair = null;
+            var request = null;
+            var space = text.indexOf(" ");
+
+            if (space > 0) {
+                request = text.substring(space + 1);
+                pair = getPairForPrefix(text.substring(0, space));
+            }
+
+            if (!pair) {
+                request = text;
+                pair = getPairForPrefix();
+            }
+
+            return {
+                request: request,
+                pair: pair
+            }
         };
 
         $rootScope.$on('settings:changed', function() {

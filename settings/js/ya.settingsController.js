@@ -208,7 +208,7 @@ angular.module('app', ['common', 'ui.select2']).
         $scope.save = function() {
             var pairs = _.map($scope.pairs, function(pair) {
                 return {
-                    prefix: pair.prefix,
+                    prefix: (pair.prefix) ? pair.prefix.trim() : '',
                     from: pair.from,
                     to: pair.to
                 }
