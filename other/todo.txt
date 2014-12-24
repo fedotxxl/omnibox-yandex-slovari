@@ -1,7 +1,2 @@
-3. Add combinations to plugin description
-4. Add hashMem.com description to settings page
-5. Rate it / share
-6. qbaka
-7. screens
 8. settings - directions
 9. settings - select first if no more
