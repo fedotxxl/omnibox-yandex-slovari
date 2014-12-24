@@ -18,7 +18,7 @@ GLOBAL.shared = {
 
     gulp.task('copy', ['clean'], function() {
         var copyStatic = function() {
-            return gulp.src(["**/*.*", '!./node_modules/**', "!**/*.html"])
+            return gulp.src(["**/*.*", '!./node_modules/**', "!**/*.html", '!./other/**', '!./env/**'])
                 .pipe(gulp.dest("build/"));
         };
 
@@ -33,6 +33,10 @@ GLOBAL.shared = {
 
     gulp.task('env.chrome.dev', ['copy'], function() {
         return copyEnv("chrome.dev")
+    });
+
+    gulp.task('env.chrome.prod', ['copy'], function() {
+        return copyEnv("chrome.prod")
     });
 }());
 

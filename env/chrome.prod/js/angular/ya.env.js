@@ -1,7 +1,7 @@
 angular.module('common').
-    value("_logDebug", true).
+    value("_logDebug", false).
     value("_testExceptionHandler", false).
-    value("_qbaka", false).
+    value("_qbaka", true).
     constant('_browser', 'chrome').
     factory('_privateRouter', function() {
         return {
