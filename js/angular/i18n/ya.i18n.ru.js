@@ -37,6 +37,10 @@ angular.module('app').
                         hashMem: {
                             link: "hashMem.com",
                             text: "удобный доступ к вашим закладкам / заметкам прямо из Omnibox <br> ★ Оптимизировано под клавиатуру<br> ★ Открытие закладки за 3-5 секунд<br> ★ Бесплатная синхронизация с hashMem.com"
+                        },
+                        googleTranslate: {
+                            link: "Omnibox Google Translate",
+                            text: "доступ к Google Translate из Omnibox.<br>★ Возможность задать пару языков по-умолчанию (например, ru -> en)<br> ★ Перевод c обратной кобинацией языков (en -> ru)<br> ★ Перевод текущей страницы"
                         }
                     },
                     share: {
