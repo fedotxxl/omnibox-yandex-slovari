@@ -1,0 +1,11 @@
+{
+  "lang": {
+    "message": "en"
+  },
+    "appName": {
+        "message": "Omnibox Yandex Dictionary"
+    },
+    "appDesc": {
+        "message": "Quickly translate Russian <-> English words from Omnibox (+ other languages)"
+    }
+}

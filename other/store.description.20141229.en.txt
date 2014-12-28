@@ -1,0 +1,13 @@
+Quick access to Yandex Dictionary. Allows you translate Russian <-> English words from Omnibox (+ other languages).
+
+★ You can specify default languages (e.g ru -> en)
+★ You can use additional languages pairs
+★ Supports all Yandex Dictionary languages
+
+To translate the word:
+1. Select address bar (ctrl+l / ⌘+l).
+2. Type ! word_you_are_going_to_translate
+3. (optional) select translation from suggestions
+4. (optional) hit [enter] to open translation on Yandex Dictionary
+
+Supported languages combinations: Russian <-> English, German, French, Italian, Spanish, Turkish; Russian -> Ukrainian, Ukrainian -> Russian; Russian -> Kazakh, Kazakh -> Russian; Ukrainian <-> English;
