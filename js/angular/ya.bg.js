@@ -1,5 +1,5 @@
 angular.module('app', ['common']).
-    factory('_omni',function (_settings, _ya, _chrome, $rootScope) {
+    factory('_omni',function (_settings, _ya, _chrome, _browser, $rootScope) {
         var latestSuggest = 0;
         var settings = null;
 
@@ -53,13 +53,23 @@ angular.module('app', ['common']).
         var convertResponseToSuggest = function(data) {
             var answer = [];
             var word = data[0];
-            var suggestions = data[1];
+            var suggestions = _.first(data[1], 6);
+            var commandNumber = 0;
 
             _.each(suggestions, function(suggestion, i) {
                 var s = suggestion[1];
                 var text = s.text + " - " + s.translation;
+                var description;
 
-                answer.push({content: text, description: text});
+                commandNumber++;
+
+                if (_browser == 'opera') {
+                    description = commandNumber + ". " + text;
+                } else {
+                    description = text;
+                }
+
+                answer.push({content: text, description: description});
             });
 
             return answer
