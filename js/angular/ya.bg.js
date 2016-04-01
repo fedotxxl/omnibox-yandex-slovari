@@ -95,7 +95,7 @@ angular.module('app', ['common']).
             var pairAndRequest = splitSuggestion(text);
             var pair = _ya.getFixedPair(pairAndRequest.pair);
             var key = _ya.getKey(pair);
-            var url = "https://slovari.yandex.ru/" + encodeURIComponent(pairAndRequest.request) + "/" + key;
+            var url = "https://lingvolive.ru/translate/" + key + "/" + encodeURIComponent(pairAndRequest.request);
 
             _chrome.openTab(url);
         };
